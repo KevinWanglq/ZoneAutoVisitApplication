@@ -19,7 +19,7 @@ public class AutoVisitWebApplication {
 	
 	private final static String qrySql = "select login_name,password from tb_user_info where status = '0'";
 	
-	private final static String VISIT_NAME= "杨燕";
+	private final static String VISIT_NAME= "##";
 	
 	private WebDriver driver = null;
 	
