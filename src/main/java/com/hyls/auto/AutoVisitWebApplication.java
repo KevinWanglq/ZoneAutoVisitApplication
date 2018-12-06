@@ -16,10 +16,10 @@ import com.hyls.utils.PageUtils;
  */
 public class AutoVisitWebApplication {
 	private final static String WEB_SITE= "http://jiaojiang.tzedu.org/";
-	
+	private final static String VISITED_MAIN_PAGE= "http://jiaojiang.space.tzedu.org/index.php?r=space/person/show&sid=706083";
+	private final static String OUTSPACE_PAGE= "http://jiaojiang.tzedu.org/index.php?r=portal/user/logout";
 	private final static String qrySql = "select login_name,password from tb_user_info where status = '0'";
 	
-	private final static String VISIT_NAME= "杨燕";
 	
 	private WebDriver driver = null;
 	
@@ -30,9 +30,10 @@ public class AutoVisitWebApplication {
     public void visit()  {
     	
     	List<User> list = DbConnection.getUserList(qrySql, DbConnection.getConn());
+    	driver = PageUtils.getChromeDriver(WEB_SITE);
     	for(User user:list) {
-    		driver = PageUtils.getChromeDriver(WEB_SITE);
-
+    		//driver = PageUtils.getChromeDriver(WEB_SITE);
+    		
             try {
             WebElement loginBtn =driver.findElement(By.cssSelector("a#login_btn"));
             PageUtils.scrollToElementAndClick(loginBtn, driver);
@@ -46,7 +47,43 @@ public class AutoVisitWebApplication {
             WebElement doLogin =driver.findElement(By.cssSelector("input[value=\"立即登录\"]"));
             PageUtils.scrollToElementAndClick(doLogin, driver);
             //如果时间过短，可能页面还没加载完成
-            Thread.sleep(8000);
+            Thread.sleep(5000);
+            
+            driver.get(VISITED_MAIN_PAGE);
+            
+            Thread.sleep(2000);
+            
+            driver.get(OUTSPACE_PAGE);
+            
+            Thread.sleep(5000);
+            //  /html/body/div[1]/div/ul/li[5]/a
+            /*WebElement settings = driver.findElement(By.xpath("/html/body/div[1]/div/ul/li[5]/a"));
+            Actions action = new Actions(driver);
+            Action mouserOverlogin =  action.moveToElement(settings).build();
+            mouserOverlogin.perform();
+            Thread.sleep(2000);*/
+            
+           // /html/body/div[1]/div/ul/li[5]/p/a[3]
+           /* WebElement logging_out = driver.findElement(By.xpath("/html/body/div[1]/div/ul/li[5]/p/a[3]"));
+            PageUtils.scrollToElementAndClick(logging_out, driver);
+            Thread.sleep(2000);*/
+            /*Actions actionOpenLinkInNewTab = new Actions(driver);
+            actionOpenLinkInNewTab.keyDown(Keys.CONTROL).sendKeys("t").keyUp(Keys.CONTROL).perform();
+            
+            // 获取当前页面句柄  
+            String handle = driver.getWindowHandle();  
+            // 获取所有页面的句柄，并循环判断不是当前的句柄 
+            for (String temhandle : driver.getWindowHandles()) {  
+                if (!temhandle.equals(handle))  
+                	driver.close();
+                else
+                    driver.switchTo().window(temhandle); 
+            } 
+            Thread.sleep(5000);
+            driver.get(WEB_SITE);
+            Thread.sleep(5000);*/
+           /* PageUtils.getAnotherPageAndCloseCurrentPage(driver);
+            
             //学生跟老师都可能出现非认证情况
             WebElement cancelBtn = driver.findElement(By.cssSelector("input[class=\"d-button\"]"));
             PageUtils.scrollToElementAndClick(cancelBtn, driver);
@@ -72,14 +109,11 @@ public class AutoVisitWebApplication {
             //WebElement rlyhref = driver.findElement(By.xpath("//*[@id=\"content\"]/ul/li/div[2]/dl/dt/a"));
             WebElement yyhref = driver.findElement(By.xpath("//*[@id=\"content\"]/ul/li[1]/div[2]/dl/dt/a"));
             PageUtils.scrollToElementAndClick(yyhref, driver);
-            Thread.sleep(5000);
+            Thread.sleep(5000);*/
+            //driver.close();
             //driver.quit();
             }catch(Exception e) {
             	e.printStackTrace();
-            }finally {
-            	/*if(driver !=null) {
-            		 driver.quit();
-            	}*/
             }
     	}
     }
