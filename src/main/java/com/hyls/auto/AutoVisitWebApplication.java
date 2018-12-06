@@ -19,8 +19,7 @@ public class AutoVisitWebApplication {
 	private final static String VISITED_MAIN_PAGE= "http://jiaojiang.space.tzedu.org/index.php?r=space/person/show&sid=706083";
 	private final static String OUTSPACE_PAGE= "http://jiaojiang.tzedu.org/index.php?r=portal/user/logout";
 	private final static String qrySql = "select login_name,password from tb_user_info where status = '0'";
-	
-	
+
 	private WebDriver driver = null;
 	
 	public static void main(String[] args) {
